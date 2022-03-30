@@ -1,0 +1,22 @@
+<ion-header style="visibility: hidden;">
+  <ion-toolbar>
+    <ion-title>home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-toolbar>
+    <ion-buttons slot="start" style="pointer-events: none">
+      <ion-button> Locations </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button fill="solid" color="primary" (click)="this.router.navigate(['/main/create'])"> Create </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+  <app-list [posts]="posts"></app-list>
+
+</ion-content>

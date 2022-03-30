@@ -1,0 +1,53 @@
+<div class="popup">
+
+  <div class="container">
+    <div class="image">
+      <img [src]="'http://cdn.onlinewebfonts.com/svg/img_516620.png'" />
+    </div>
+
+    <h3 class="confirm">
+      You sure?
+    </h3>
+
+    <ion-toolbar style="--background: transparent">
+      <ion-buttons slot="start">
+        <ion-button fill="solid" color="primary" (click)="onNo()"> No </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button fill="solid" color="danger" (click)="onYes()"> Yes </ion-button>
+      </ion-buttons>
+
+      <ion-title style="visibility: hidden;">actions</ion-title>
+    </ion-toolbar>
+  </div>
+
+</div>
+
+
+<!-- <ion-grid>
+  <ion-row>
+    <ion-col size="12">
+      <div class="popup-wrapper">
+        <div class="image">
+          <img [src]="'http://cdn.onlinewebfonts.com/svg/img_516620.png'" />
+        </div>
+
+        <div class="confirm">
+          You sure?
+        </div>
+
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="onNo()"> No </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button (click)="onYes()"> Yes </ion-button>
+          </ion-buttons>
+
+          <ion-title style="visibility: hidden;">actions</ion-title>
+        </ion-toolbar>
+
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid> -->

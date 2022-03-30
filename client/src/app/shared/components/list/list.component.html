@@ -1,0 +1,16 @@
+<ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+
+  <ion-item *ngFor="let post of posts" (click)="openDetail(post)">
+    <ion-avatar slot="start">
+      <img [src]="post.selectedFile" />
+    </ion-avatar>
+    <ion-label>
+      <h3>{{post.title}}</h3>
+      <p>{{post?.message}}</p>
+    </ion-label>
+    <ion-reorder slot="end">
+      <ion-icon name="pizza"></ion-icon>
+    </ion-reorder>
+  </ion-item>
+
+</ion-reorder-group>

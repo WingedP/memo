@@ -1,0 +1,22 @@
+@import "/src/global.scss";
+
+.popup {
+  background: transparent;
+  height: 100%;
+  @include flex-row;
+  .container {
+    @include flex-column;
+    background: white;
+    width: 80%;
+    height: 50%;
+    border-radius: 8px;
+    padding: 10px;
+    .image {
+      width: 60%;
+    }
+  }
+}
+
+ion-button {
+  min-width: 100px;
+}
