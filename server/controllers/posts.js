@@ -5,7 +5,7 @@ export const getPosts = async (req, res) => {
     const { page, limit } = req.query;
 
     try {
-        const LIMIT = limit;
+        const LIMIT = parseInt(limit);
         const startIndex = (Number(page) - 1) * LIMIT;
         const total = await PostMessage.countDocuments({});
         const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
