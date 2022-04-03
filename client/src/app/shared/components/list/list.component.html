@@ -1,16 +1,30 @@
-<ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+<ion-list *ngIf="!gridMode">
+  <ion-virtual-scroll [items]="posts" approxItemHeight="20px">
+    <ion-item *virtualItem="let post" (click)="openDetail(post)">
+      <ion-avatar slot="start">
+        <img [src]="post.selectedFile" />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{post.title}}</h3>
+        <p>{{post?.message}}</p>
+      </ion-label>
+      <ion-reorder slot="end">
+        <ion-icon name="move"></ion-icon>
+      </ion-reorder>
+    </ion-item>
+  </ion-virtual-scroll>
+</ion-list>
 
-  <ion-item *ngFor="let post of posts" (click)="openDetail(post)">
-    <ion-avatar slot="start">
-      <img [src]="post.selectedFile" />
-    </ion-avatar>
-    <ion-label>
-      <h3>{{post.title}}</h3>
-      <p>{{post?.message}}</p>
-    </ion-label>
-    <ion-reorder slot="end">
-      <ion-icon name="pizza"></ion-icon>
-    </ion-reorder>
-  </ion-item>
-
-</ion-reorder-group>
+<ion-grid *ngIf="gridMode">
+  <ion-virtual-scroll [items]="gridPosts">
+    <ion-row *virtualItem="let chunk">
+      <ng-container *ngFor="let post of chunk">
+        <ion-col size="4" (click)="openDetail(post)">
+          <div class="img_container">
+            <img [src]="post?.selectedFile" />
+          </div>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-virtual-scroll>
+</ion-grid>

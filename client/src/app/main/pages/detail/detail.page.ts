@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionSheetController, AnimationBuilder, AnimationController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AnimationController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { Store } from '@ngxs/store';
 import { PostsService } from 'src/app/services/posts.service';
 import { PopupConfirmYesNoComponent } from 'src/app/shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component';
+import { PostsAction } from '../../states/postsStates/posts.actions';
 
 @Component({
   selector: 'app-detail',
@@ -11,8 +13,9 @@ import { PopupConfirmYesNoComponent } from 'src/app/shared/components/popup-conf
 })
 export class DetailPage implements OnInit {
   public post: any;
-  
+
   constructor(
+    public store: Store,
     public route: ActivatedRoute,
     public router: Router,
     public modalController: ModalController,
@@ -90,14 +93,20 @@ export class DetailPage implements OnInit {
         post: this.post,
       },
     };
-    this.navController.navigateForward(['/main/edit'], navigationExtras)
+    this.navController.navigateForward(['/main/edit'], navigationExtras);
   }
 
   public deletePost() {
-    this.postsService.deletePost(this.post._id).subscribe((res) => {
-      this.presentToast('delete success.', 'success');
-      this.navController.navigateBack(['/main/home'])
-    })
+    this.store.dispatch(new PostsAction.deletePost(this.post._id))
+      .subscribe(
+        (res) => {
+          this.presentToast('deleted success.', 'success');
+          this.navController.navigateBack(['/main/home']);
+        },
+        (error) => {
+          this.presentToast('failed to delete post.', 'danger');
+        }
+      );
   }
 
   public async presentToast(msg, toastColor) {

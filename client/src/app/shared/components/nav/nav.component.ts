@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { NavController, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,18 +12,18 @@ export class NavComponent implements OnInit {
   public previousUrl: string = undefined;
   public currentUrl: string = undefined;
   public currentLocation: any = 'home';
+  public showBackBtn: boolean = false;
 
   constructor(
     public router: Router,
     public navController: NavController,
+    public httpService: HttpService,
   ) {
     this.getCurrentUrl();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // empty
-    console.log(11111, this.currentLocation);
-
   }
 
   public getCurrentUrl() {
@@ -31,8 +32,22 @@ export class NavComponent implements OnInit {
         this.previousUrl = this.currentUrl;
         this.currentUrl = event.url;
         this.currentLocation = this.currentUrl.slice(6);
+
+        this.httpService.previousUrl = this.previousUrl;
+        this.httpService.currentUrl = this.currentUrl;
+
+        // show back btn or not
+        if (this.currentLocation === 'home') {
+          this.showBackBtn = false;
+        } else {
+          this.showBackBtn = true;
+        }
       }
     })
+  }
+
+  public backToPreviousPage() {
+    this.navController.back();
   }
 
 }

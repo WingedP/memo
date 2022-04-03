@@ -4,19 +4,31 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-toolbar>
+  <ion-buttons slot="start" style="pointer-events: none">
+    <ion-button> Locations </ion-button>
+  </ion-buttons>
+
+  <ion-buttons slot="end">
+    <ion-button fill="solid" color="primary" (click)="this.router.navigate(['/main/create'])"> Create </ion-button>
+    <ion-fab-button (click)="changeViewMode()">
+      <ion-icon [hidden]="gridMode" name="grid"></ion-icon>
+      <ion-icon [hidden]="!gridMode" name="list"></ion-icon>
+    </ion-fab-button>
+  </ion-buttons>
+</ion-toolbar>
+
 <ion-content>
+  <app-list #listComponent [gridMode]="gridMode" [posts]="posts"></app-list>
 
-  <ion-toolbar>
-    <ion-buttons slot="start" style="pointer-events: none">
-      <ion-button> Locations </ion-button>
-    </ion-buttons>
+  <ion-infinite-scroll #ioninfinite threshold="0px"
+    (ionInfinite)="fetchPosts($event, {limit: limit, page: currentPage })">
+    <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="load more...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
-    <ion-buttons slot="end">
-      <ion-button fill="solid" color="primary" (click)="this.router.navigate(['/main/create'])"> Create </ion-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-
-  <app-list [posts]="posts"></app-list>
-
+  <div class="listEnd" [hidden]="!noMorePost">
+    <img
+      [src]="'https://images.vexels.com/media/users/3/157931/isolated/preview/604a0cadf94914c7ee6c6e552e9b4487-curved-check-mark-circle-icon.png'" />
+  </div>
 </ion-content>

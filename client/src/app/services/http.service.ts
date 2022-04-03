@@ -7,10 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class HttpService {
-  public avatarPlaceholder = 'assets/icon/user_ava/ava_1.svg';
-  public postPlaceholder1 = 'assets/icon/trend_slide/turtle.svg';
-  public postPlaceholder2 = 'assets/icon/trend_slide/pudding.JPG';
-  public diaryPostPH = 'assets/icon/diary/posts_list/pic_holder.svg';
+  public previousUrl: string = undefined;
+  public currentUrl: string = undefined;
 
   constructor(
     public httpClient: HttpClient,
@@ -24,24 +22,24 @@ export class HttpService {
     return this.httpClient.get(url, requestOption);
   }
 
-  post<t>(url, data): Observable<any>{
-    let requestOption = this.createAuthorizationHeader()
-    return this.httpClient.post(url, data, requestOption)
+  post<t>(url, data): Observable<any> {
+    let requestOption = this.createAuthorizationHeader();
+    return this.httpClient.post(url, data, requestOption);
   }
 
-  put<t>(url, data): Observable<any>{
-    let requestOption = this.createAuthorizationHeader()
-    return this.httpClient.put(url, data, requestOption)
+  put<t>(url, data): Observable<any> {
+    let requestOption = this.createAuthorizationHeader();
+    return this.httpClient.put(url, data, requestOption);
   }
 
-  patch<t>(url, data): Observable<any>{
-    let requestOption = this.createAuthorizationHeader()
-    return this.httpClient.patch(url, data, requestOption)
+  patch<t>(url, data): Observable<any> {
+    let requestOption = this.createAuthorizationHeader();
+    return this.httpClient.patch(url, data, requestOption);
   }
 
-  delete<t>(url): Observable<any>{
-    let requestOption = this.createAuthorizationHeader()
-    return this.httpClient.delete(url, requestOption)
+  delete<t>(url): Observable<any> {
+    let requestOption = this.createAuthorizationHeader();
+    return this.httpClient.delete(url, requestOption);
   }
 
   get tokenGameServer() {
@@ -61,10 +59,8 @@ export class HttpService {
   }
 
   public createAuthorizationHeader() {
-    let headers = new HttpHeaders({
-      'X-GAMER': this.tokenUser || ''
-    });
-    return { headers: headers }
+    let headers = new HttpHeaders({});
+    return { headers: headers };
   }
 
   public list(params: any) {

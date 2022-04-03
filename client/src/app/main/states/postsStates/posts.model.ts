@@ -1,13 +1,14 @@
-export interface PostsStateModel {
+export interface Post {
+  _id: string;
   title: String,
   message: String,
   user: String,
   creator: String,
   selectedFile: String,
   visited: Boolean,
-  // createdAt: {
-  //     type: Date,
-  //     default: new Date()
-  // }
-// });
+}
+export class PostsStateModel {
+  posts: Post[];
+  currentPage: Number;
+  totalPages: Number;
 }

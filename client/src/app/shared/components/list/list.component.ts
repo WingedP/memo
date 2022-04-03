@@ -1,31 +1,34 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { IonReorderGroup } from '@ionic/angular';
-import { ItemReorderEventDetail } from '@ionic/core';
+import { IonReorderGroup, IonVirtualScroll } from '@ionic/angular';
+import { Store } from '@ngxs/store';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
-  @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
+export class ListComponent implements OnInit, OnChanges {
+  @ViewChild(IonVirtualScroll) virtualScroll: IonVirtualScroll;
   @Input() posts: any;
+  @Input() gridMode: any;
+  public gridPosts: any;
 
   constructor(
+    public store: Store,
     public router: Router,
+    public postsService: PostsService,
   ) { }
 
-  public ngOnInit() { }
-
-  public reorderItems(ev: CustomEvent<ItemReorderEventDetail>) {
-    console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
-    ev.detail.complete();
+  public ngOnChanges() {
+    if (this.posts.length > 0) {
+      this.gridPosts = this.postsService.group3Elements(this.posts, 3);
+    }
   }
 
-  public doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
-    ev.detail.complete();
+  public ngOnInit() {
+    // empty
   }
 
   public openDetail(post) {

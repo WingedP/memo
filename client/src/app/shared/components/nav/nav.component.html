@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-fab-button *ngIf="showBackBtn" (click)="backToPreviousPage()" color="cherry">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
     <ion-title>{{currentLocation ? currentLocation : 'home'}}</ion-title>
   </ion-toolbar>
 </ion-header>
