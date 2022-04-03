@@ -16,7 +16,7 @@ export class PostsService extends HttpService {
   }
 
   public getPosts(data?): Observable<any> {
-    return this.get(`${environment.baseUrl}/posts`, { params: data })
+    return this.get(`${environment.baseUrl}/posts`, { params: data });
   }
 
   public createPost(data) {
@@ -29,6 +29,14 @@ export class PostsService extends HttpService {
 
   public deletePost(postID) {
     return this.delete(`${environment.baseUrl}/posts/${postID}`);
+  }
+
+  public reorderPost(data) {
+    return this.post(`${environment.baseUrl}/posts/reorder`, data);
+  }
+
+  public group3Elements(array, n) {
+    return [...Array(Math.ceil(array.length / n))].map((el, i) => array.slice(i * n, (i + 1) * n));
   }
 
 }
