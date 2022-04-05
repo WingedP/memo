@@ -6,6 +6,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { PostsAction } from 'src/app/main/states/postsStates/posts.actions';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-form',
@@ -16,10 +17,13 @@ export class FormComponent implements OnInit {
   @Input() post: any;
   public postForm: FormGroup;
   public isSubmitted = false;
+  public placeholder = 'https://wtwp.com/wp-content/uploads/2015/06/placeholder-image.png';
+  public psyduck = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/054.png';
 
   constructor(
     public store: Store,
     public postsService: PostsService,
+    public photoService: PhotoService,
     public errorHandlingService: ErrorHandlingService,
     public formBuilder: FormBuilder,
     public toastController: ToastController,
@@ -43,7 +47,7 @@ export class FormComponent implements OnInit {
       title: '',
       message: '',
       visited: false,
-      selectedFile: 'https://media.npr.org/assets/img/2021/08/11/gettyimages-1279899488_wide-f3860ceb0ef19643c335cb34df3fa1de166e2761-s1100-c50.jpg'
+      selectedFile: this.placeholder,
     });
   }
 
@@ -120,6 +124,10 @@ export class FormComponent implements OnInit {
       duration: 1200,
     });
     toast.present();
+  }
+
+  public addPhotoToGallery() {
+    this.photoService.addNewToGallery();
   }
 
 }

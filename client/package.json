@@ -9,7 +9,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "mobile": "ionic serve --public --host 0.0.0.0",
+    "ip": "ifconfig | grep inet"
   },
   "private": true,
   "dependencies": {
@@ -20,11 +22,15 @@
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
     "@capacitor/app": "1.1.1",
+    "@capacitor/camera": "^1.3.1",
     "@capacitor/core": "3.4.3",
+    "@capacitor/filesystem": "^1.1.0",
     "@capacitor/haptics": "1.1.4",
     "@capacitor/keyboard": "1.2.2",
     "@capacitor/status-bar": "1.0.8",
+    "@capacitor/storage": "^1.2.5",
     "@ionic/angular": "^6.0.0",
+    "@ionic/pwa-elements": "^3.1.1",
     "@ngxs/devtools-plugin": "^3.7.3-dev.master-33cace6",
     "@ngxs/logger-plugin": "^3.7.3-dev.master-33cace6",
     "@ngxs/store": "^3.7.3-dev.master-33cace6",

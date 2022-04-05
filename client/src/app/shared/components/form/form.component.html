@@ -1,6 +1,5 @@
 <div class="formContainer">
   <form [formGroup]="postForm" (ngSubmit)="submitForm()" novalidate>
-
     <ion-item lines="full">
       <ion-label position="floating">User</ion-label>
       <ion-input formControlName="user" type="text" required></ion-input>
@@ -15,9 +14,31 @@
       <ion-input formControlName="message" type="text" required></ion-input>
     </ion-item>
 
-    <ion-item lines="full">
+    <!-- <ion-item lines="full">
       <ion-label position="floating">Image</ion-label>
       <ion-input formControlName="selectedFile" type="text" required></ion-input>
+    </ion-item> -->
+
+    <ion-item lines="full">
+      <ion-label class="img_label" position="stacked">Image</ion-label>
+
+      <div class="previewImg">
+        <ion-grid *ngIf="photoService.photos.length >= 1">
+          <ion-row>
+            <ion-col size="12" *ngFor="let photo of photoService.photos; index as position">
+              <ion-img [src]="'photo.webviewPath'"></ion-img>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-img *ngIf="!photoService.photos || photoService.photos.length === 0"
+          [src]="photoService.photos.length >= 1 ? photoService.photos : placeholder"></ion-img>
+      </div>
+
+      <div class="takepic">
+        <ion-fab-button (click)="addPhotoToGallery()">
+          <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+      </div>
     </ion-item>
 
     <ion-item>
@@ -26,27 +47,10 @@
         name="cherry"></ion-toggle>
     </ion-item>
 
-    <ion-row style="margin-top: 10px;">
+    <ion-row style="margin-top: 10px">
       <ion-col>
         <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
       </ion-col>
     </ion-row>
   </form>
 </div>
-
-
-<!-- <form [formGroup]="postForm" (ngSubmit)="submitForm()" novalidate>
-  <ion-item lines="full">
-    <ion-label position="floating">Name</ion-label>
-    <ion-input formControlName="name" type="text" required></ion-input>
-  </ion-item>
-  <ion-item lines="full">
-    <ion-label position="floating">Email</ion-label>
-    <ion-input formControlName="email" type="email" required></ion-input>
-  </ion-item>
-  <ion-row>
-    <ion-col>
-      <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
-    </ion-col>
-  </ion-row>
-</form> -->

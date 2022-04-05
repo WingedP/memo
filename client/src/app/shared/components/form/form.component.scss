@@ -1,6 +1,28 @@
+@import "/src/global.scss";
+
 .formContainer {
   margin: 20px 20px 10px 20px;
   padding: 20px 5vw 20px 5vw;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 6px;
+}
+
+.previewImg {
+  margin: 10px 10px 10px 10px;
+  border-radius: 6px;
+  overflow: hidden;
+
+  img {
+    border-radius: 6px;
+  }
+}
+
+.img_label {
+  font-size: 17px;
+}
+
+.takepic {
+  @include flex-row;
+  width: 100%;
+  padding-bottom: 10px;
 }
