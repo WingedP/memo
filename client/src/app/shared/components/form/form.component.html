@@ -26,7 +26,7 @@
         <ion-grid *ngIf="photoService.photos.length >= 1">
           <ion-row>
             <ion-col size="12" *ngFor="let photo of photoService.photos; index as position">
-              <ion-img [src]="'photo.webviewPath'"></ion-img>
+              <ion-img [src]="photo.webviewPath"></ion-img>
             </ion-col>
           </ion-row>
         </ion-grid>

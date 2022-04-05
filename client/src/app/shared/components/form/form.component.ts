@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostsService } from 'src/app/services/posts.service';
 import { NavController, ToastController } from '@ionic/angular';
@@ -7,18 +7,21 @@ import { Store } from '@ngxs/store';
 import { PostsAction } from 'src/app/main/states/postsStates/posts.actions';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { PhotoService } from 'src/app/services/photo.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
   @Input() post: any;
   public postForm: FormGroup;
   public isSubmitted = false;
   public placeholder = 'https://wtwp.com/wp-content/uploads/2015/06/placeholder-image.png';
   public psyduck = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/054.png';
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     public store: Store,
@@ -32,12 +35,19 @@ export class FormComponent implements OnInit {
     // empty
   }
 
+  public ngOnDestroy() {
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
+  }
+
   public ngOnInit() {
     this.initForm(); // [for creating new post]
 
     if (this.post) { // [for updating/editing post]
       this.editModePatchForm();
     }
+
+    this.patchPhotoToForm();
   }
 
   public initForm() {
@@ -58,6 +68,16 @@ export class FormComponent implements OnInit {
       message: this.post.message,
       visited: this.post.visited,
       selectedFile: this.post.selectedFile,
+    });
+  }
+
+  public patchPhotoToForm() {
+    this.photoService.addPhotoAction$.pipe(
+      takeUntil(this.destroy)
+    ).subscribe((photo) => {
+      this.postForm.patchValue({
+        selectedFile: photo.webviewPath,
+      });
     });
   }
 
