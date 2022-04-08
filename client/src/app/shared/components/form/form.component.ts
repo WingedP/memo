@@ -22,6 +22,7 @@ export class FormComponent implements OnInit, OnDestroy {
   public placeholder = 'https://wtwp.com/wp-content/uploads/2015/06/placeholder-image.png';
   public psyduck = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/054.png';
   private destroy: Subject<boolean> = new Subject<boolean>();
+  public isSubmitting = false;
 
   constructor(
     public store: Store,
@@ -102,31 +103,37 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   public addPost(body) {
+    this.isSubmitting = true;
     this.store.dispatch([new PostsAction.createPost(body)])
       .subscribe(
         (res) => {
           this.presentToast('created success.', 'success');
-          this.isSubmitted = false;
+          this.isSubmitting = false;
           this.navController.navigateBack(['/main/home']);
+          this.photoService.photos = [];
         },
         (error) => {
           this.presentToast('failed to create new post.', 'danger');
-          this.isSubmitted = false;
+          this.isSubmitting = false;
+          this.photoService.photos = [];
         }
       );
   }
 
   public updatePost(body) {
+    this.isSubmitting = true;
     this.store.dispatch([new PostsAction.updatePost(body, this.post._id)])
       .subscribe(
         (res) => {
           this.presentToast('updated success.', 'success');
-          this.isSubmitted = false;
+          this.isSubmitting = false;
           this.navController.navigateBack(['/main/home']);
+          this.photoService.photos = [];
         },
         (error) => {
           this.presentToast('failed to update post.', 'danger');
-          this.isSubmitted = false;
+          this.isSubmitting = false;
+          this.photoService.photos = [];
         }
       );
   }

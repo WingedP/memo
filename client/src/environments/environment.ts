@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:5001'
+  baseUrl: 'https://memo-pj.herokuapp.com'
+  // baseUrl: 'http://localhost:5001'
 };
 
 /*
