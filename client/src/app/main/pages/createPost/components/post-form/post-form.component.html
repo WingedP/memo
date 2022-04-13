@@ -17,26 +17,15 @@
     <ion-item lines="full">
       <ion-label class="img_label" position="stacked">Image</ion-label>
 
-      <div class="previewImg editMode" *ngIf="post">
-        <ion-grid *ngIf="post.selectedFile">
+      <div class="previewImg">
+        <ion-grid>
           <ion-row>
             <ion-col size="12">
-              <ion-img [src]="post.selectedFile"></ion-img>
+              <ion-img [src]="updatedPhoto"></ion-img>
             </ion-col>
           </ion-row>
         </ion-grid>
-      </div>
-
-      <div class="previewImg createMode" *ngIf="!post">
-        <ion-grid *ngIf="photoService.photos.length >= 1">
-          <ion-row>
-            <ion-col size="12" *ngFor="let photo of photoService.photos; index as position">
-              <ion-img [src]="photo.webviewPath"></ion-img>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <ion-img *ngIf="!photoService.photos || photoService.photos.length === 0"
-          [src]="photoService.photos.length >= 1 ? photoService.photos : placeholder"></ion-img>
+        <ion-img *ngIf="!updatedPhoto" [src]="placeholder"></ion-img>
       </div>
 
       <div class="takepic">
@@ -54,7 +43,8 @@
 
     <ion-row style="margin-top: 10px">
       <ion-col>
-        <ion-button *ngIf="!isSubmitting" type="submit" color="danger" expand="block">{{post ? 'Update' : 'Submit'}}</ion-button>
+        <ion-button *ngIf="!isSubmitting" type="submit" color="danger" expand="block">{{post ? 'Update' : 'Submit'}}
+        </ion-button>
 
         <ion-button *ngIf="isSubmitting" type="submit" color="danger" expand="block">
           <ion-spinner></ion-spinner>

@@ -18,12 +18,8 @@
   </ion-buttons>
 </ion-toolbar>
 
-
-
 <ion-content>
-  <div class="loading" *ngIf="isLoading">
-    <ion-spinner name="crescent"></ion-spinner>
-  </div>
+  <app-skeleton-list *ngIf="isLoading" [gridMode]="gridMode"></app-skeleton-list>
   <app-list #listComponent [gridMode]="gridMode" [posts]="posts"></app-list>
 
   <ion-infinite-scroll #ioninfinite threshold="0px"

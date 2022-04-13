@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { IonReorderGroup, IonVirtualScroll } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { PostsService } from 'src/app/services/posts.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-list',
@@ -19,7 +20,10 @@ export class ListComponent implements OnInit, OnChanges {
     public store: Store,
     public router: Router,
     public postsService: PostsService,
-  ) { }
+    private sanitizer: DomSanitizer,
+  ) {
+    // empty
+  }
 
   public ngOnChanges() {
     if (this.posts.length > 0) {

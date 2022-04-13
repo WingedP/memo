@@ -17,6 +17,7 @@ import { PostsService } from 'src/app/services/posts.service';
 export class PostFormComponent implements OnInit, OnDestroy {
   @Input() post: any;
   public postForm: FormGroup;
+  public updatedPhoto = undefined;
   public isSubmitted = false;
   public placeholder = 'https://wtwp.com/wp-content/uploads/2015/06/placeholder-image.png';
   public psyduck = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/054.png';
@@ -62,8 +63,6 @@ export class PostFormComponent implements OnInit, OnDestroy {
   }
 
   public editModePatchForm() {
-    console.log(1, this.post);
-
     this.postForm.patchValue({
       user: this.post.user,
       title: this.post.title,
@@ -71,6 +70,8 @@ export class PostFormComponent implements OnInit, OnDestroy {
       visited: this.post.visited,
       selectedFile: this.post.selectedFile,
     });
+
+    this.updatedPhoto = this.post.selectedFile;
   }
 
   public patchPhotoToForm() {
@@ -80,6 +81,8 @@ export class PostFormComponent implements OnInit, OnDestroy {
       this.postForm.patchValue({
         selectedFile: photo.webviewPath,
       });
+
+      this.updatedPhoto = photo.webviewPath;
     });
   }
 
@@ -111,12 +114,10 @@ export class PostFormComponent implements OnInit, OnDestroy {
           this.presentToast('created success.', 'success');
           this.isSubmitting = false;
           this.navController.navigateBack(['/main/home']);
-          this.photoService.photos = [];
         },
         (error) => {
           this.presentToast('failed to create new post.', 'danger');
           this.isSubmitting = false;
-          this.photoService.photos = [];
         }
       );
   }
@@ -129,12 +130,10 @@ export class PostFormComponent implements OnInit, OnDestroy {
           this.presentToast('updated success.', 'success');
           this.isSubmitting = false;
           this.navController.navigateBack(['/main/home']);
-          this.photoService.photos = [];
         },
         (error) => {
           this.presentToast('failed to update post.', 'danger');
           this.isSubmitting = false;
-          this.photoService.photos = [];
         }
       );
   }

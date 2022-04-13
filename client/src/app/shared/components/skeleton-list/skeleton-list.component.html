@@ -1,0 +1,31 @@
+<ion-list id="skeleton" *ngIf="!gridMode">
+  <ion-item *ngFor="let item of [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+
+    <div class="avatar">
+      <ion-thumbnail class="list_thumb" slot="start">
+        <ion-skeleton-text></ion-skeleton-text>
+      </ion-thumbnail>
+    </div>
+
+    <ion-label>
+      <h3>
+        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+      </h3>
+      <p>
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+
+<ion-grid *ngIf="gridMode">
+    <ion-row *ngFor="let chunk of [[0,1,2], [0,1,2], [0,1,2]]">
+      <ng-container *ngFor="let post of chunk">
+        <ion-col size="4" style="height: 140px;">
+          <ion-thumbnail class="grid_thumb">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-thumbnail>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+</ion-grid>

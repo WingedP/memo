@@ -6,10 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './components/list/list.component';
 import { NavComponent } from './components/nav/nav.component';
 import { PopupConfirmYesNoComponent } from './components/popup-confirm-yes-no/popup-confirm-yes-no.component';
+import { SkeletonListComponent } from './components/skeleton-list/skeleton-list.component';
 
 const allSharedComponents = [
   NavComponent,
   ListComponent,
+  SkeletonListComponent,
   PopupConfirmYesNoComponent,
 ];
 

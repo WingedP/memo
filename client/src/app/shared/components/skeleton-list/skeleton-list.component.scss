@@ -1,0 +1,19 @@
+.list_thumb {
+  --border-radius: 50%;
+  --size: 100%;
+}
+
+.grid_thumb {
+  --border-radius: 6px;
+  --size: 100%;
+}
+
+ion-label {
+  padding-left: 15px;
+}
+
+.avatar {
+  width: 39px;
+  height: 39px;
+  overflow: hidden;
+}
