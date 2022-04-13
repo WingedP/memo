@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionSheetController, AnimationController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AnimationController, LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { PostsService } from 'src/app/services/posts.service';
 import { PopupConfirmYesNoComponent } from 'src/app/shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component';
@@ -23,6 +23,7 @@ export class DetailPage implements OnInit {
     public actionSheetController: ActionSheetController,
     public navController: NavController,
     public toastController: ToastController,
+    public loadingController: LoadingController,
     public postsService: PostsService,
   ) {
     this.route.queryParams.subscribe(params => {
@@ -82,6 +83,7 @@ export class DetailPage implements OnInit {
 
     const { data } = await modal.onWillDismiss();
     if (data === 'yes') {
+      this.presentLoading();
       this.deletePost();
     }
   }
@@ -100,10 +102,12 @@ export class DetailPage implements OnInit {
     this.store.dispatch(new deletePost(this.post._id))
       .subscribe(
         (res) => {
+          this.loadingController.dismiss();
           this.presentToast('deleted success.', 'success');
           this.navController.navigateBack(['/main/home']);
         },
         (error) => {
+          this.loadingController.dismiss();
           this.presentToast('failed to delete post.', 'danger');
         }
       );
@@ -116,5 +120,17 @@ export class DetailPage implements OnInit {
       duration: 1200,
     });
     toast.present();
+  }
+
+  public async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+      duration: 9999
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
   }
 }
