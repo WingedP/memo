@@ -1,4 +1,5 @@
 @import "/src/global.scss";
+
 ion-fab-button {
   width: 25px;
   height: 25px;
@@ -16,4 +17,10 @@ ion-icon {
   img {
     height: 81%;
   }
+}
+
+.loading {
+  width: 100%;
+  min-height: 100px;
+  @include flex-row;
 }

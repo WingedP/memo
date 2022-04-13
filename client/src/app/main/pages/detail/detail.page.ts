@@ -4,7 +4,7 @@ import { ActionSheetController, AnimationController, ModalController, NavControl
 import { Store } from '@ngxs/store';
 import { PostsService } from 'src/app/services/posts.service';
 import { PopupConfirmYesNoComponent } from 'src/app/shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component';
-import { PostsAction } from '../../states/postsStates/posts.actions';
+import { deletePost } from '../../states/postsStates/posts.actions';
 
 @Component({
   selector: 'app-detail',
@@ -97,7 +97,7 @@ export class DetailPage implements OnInit {
   }
 
   public deletePost() {
-    this.store.dispatch(new PostsAction.deletePost(this.post._id))
+    this.store.dispatch(new deletePost(this.post._id))
       .subscribe(
         (res) => {
           this.presentToast('deleted success.', 'success');

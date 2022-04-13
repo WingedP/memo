@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
 import { PostsStateModel } from "./posts.model";
 import { PostsService } from "src/app/services/posts.service";
 import { tap } from 'rxjs/operators';
-import { PostsAction } from "./posts.actions";
+import { getPosts, createPost, updatePost, deletePost } from "./posts.actions";
 
 const POSTS_STATE_TOKEN = new StateToken<PostsStateModel>(
   'PostsState'
@@ -32,7 +32,7 @@ export class PostsState {
     return state.posts;
   }
 
-  @Action(PostsAction.getPosts)
+  @Action(getPosts)
   getPosts(context: StateContext<PostsStateModel>, { request }: any) {
     return this.postsService.getPosts(request).pipe(tap((res) => {
       const state = context.getState();
@@ -47,16 +47,16 @@ export class PostsState {
     }));
   }
 
-  @Action(PostsAction.createPost)
-  createPost(context: StateContext<PostsStateModel>, { payload }: PostsAction.createPost) {
+  @Action(createPost)
+  createPost(context: StateContext<PostsStateModel>, { payload }: createPost) {
     return this.postsService.createPost(payload).pipe(tap((res) => {
       const state = context.getState();
       context.patchState({ posts: [res, ...state.posts] });
     }));
   }
 
-  @Action(PostsAction.updatePost)
-  updatePost(context: StateContext<PostsStateModel>, { payload, id }: PostsAction.updatePost) {
+  @Action(updatePost)
+  updatePost(context: StateContext<PostsStateModel>, { payload, id }: updatePost) {
     return this.postsService.updatePost(payload, id).pipe(tap((res) => {
       const state = context.getState();
       const postsList = [...state.posts];
@@ -66,22 +66,12 @@ export class PostsState {
     }));
   }
 
-  @Action(PostsAction.deletePost)
-  deletePost(context: StateContext<PostsStateModel>, { id }: PostsAction.deletePost) {
+  @Action(deletePost)
+  deletePost(context: StateContext<PostsStateModel>, { id }: deletePost) {
     return this.postsService.deletePost(id).pipe(tap(() => {
       const state = context.getState();
       const newPostsList = state.posts.filter(item => item._id !== id); // remove deleted post from posts
       context.setState({ ...state, posts: newPostsList });
-    }));
-  }
-
-  @Action(PostsAction.reorderPost)
-  reorderPost(context: StateContext<PostsStateModel>, { payload }: PostsAction.reorderPost) {
-    return this.postsService.reorderPost(payload).pipe(tap((res) => {
-      const state = context.getState();
-      console.log(1, res);
-
-      context.setState({ ...state, posts: res.posts });
     }));
   }
 

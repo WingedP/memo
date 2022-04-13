@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PostsService } from 'src/app/services/posts.service';
 import { ListComponent } from 'src/app/shared/components/list/list.component';
-import { PostsAction } from '../../states/postsStates/posts.actions';
+import { getPosts } from '../../states/postsStates/posts.actions';
 import { PostsState } from '../../states/postsStates/posts.state';
 
 @Component({
@@ -26,7 +26,8 @@ export class HomePage implements OnInit, OnDestroy {
   public limit: number = 9;
   public currentPage: number = 1;
   public timeOut: number = 400;
-  public noMorePost: boolean = false;
+  public noMorePost = false;
+  public isLoading = true;
 
   constructor(
     private store: Store,
@@ -55,32 +56,32 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public fetchPosts(event, request) {
-    switch (event) {
-      case !event: // 1st load/ init
-        this.store.dispatch(new PostsAction.getPosts(request))
+    if (!event) {
+      this.store.dispatch(new getPosts(request))
+        .pipe(takeUntil(this.destroy))
+        .subscribe((res) => {
+          this.isLoading = false;
+          this.currentPage++;
+          this.infiniteScroll.disabled = res.PostsState.currentPage === res.PostsState.totalPages;
+          this.noMorePost = this.infiniteScroll.disabled;
+        });
+      return;
+    }
+
+    if (event) {
+      setTimeout(() => {
+        this.store.dispatch(new getPosts(request))
           .pipe(takeUntil(this.destroy))
           .subscribe((res) => {
             this.currentPage++;
-            this.infiniteScroll.disabled = res.PostsState.currentPage === res.PostsState.totalPages;
-            this.noMorePost = this.infiniteScroll.disabled;
+            if (event) {
+              event?.target?.complete();
+              this.listComponent?.virtualScroll?.checkEnd();
+              this.infiniteScroll.disabled = res.PostsState.currentPage === res.PostsState.totalPages;
+              this.noMorePost = this.infiniteScroll.disabled;
+            }
           });
-        break;
-
-      case event: // load more
-        setTimeout(() => {
-          this.store.dispatch(new PostsAction.getPosts(request))
-            .pipe(takeUntil(this.destroy))
-            .subscribe((res) => {
-              this.currentPage++;
-              if (event) {
-                event?.target?.complete();
-                this.listComponent?.virtualScroll?.checkEnd();
-                this.infiniteScroll.disabled = res.PostsState.currentPage === res.PostsState.totalPages;
-                this.noMorePost = this.infiniteScroll.disabled;
-              }
-            });
-        }, 400);
-        break;
+      }, 400);
     }
   }
 
@@ -89,92 +90,3 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
 }
-
-
-// normal way:
-
-// import { Component, OnDestroy, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { Select, Selector, Store } from '@ngxs/store';
-// import { Observable, Subject } from 'rxjs';
-// import { first, takeUntil } from 'rxjs/operators';
-// import { PostsService } from 'src/app/services/posts.service';
-// import { getPosts } from '../../states/postsStates/posts.actions';
-// import { Post } from '../../states/postsStates/posts.model';
-// import { PostsState } from '../../states/postsStates/posts.state';
-
-// @Component({
-//   selector: 'app-home',
-//   templateUrl: './home.page.html',
-//   styleUrls: ['./home.page.scss'],
-// })
-// export class HomePage implements OnInit {
-//   public posts = [];
-
-//   constructor(
-//     public router: Router,
-//     public postsService: PostsService,
-//   ) { }
-
-//   public ngOnInit() {
-//     this.getPosts();
-//   }
-
-//   public getPosts() {
-//     this.postsService.getPosts().subscribe((res) => {
-//       this.posts = res.posts;
-//     })
-//   }
-
-// }
-
-
-// import { Component, OnDestroy, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { Select, Selector, Store } from '@ngxs/store';
-// import { Observable, Subject } from 'rxjs';
-// import { first, takeUntil } from 'rxjs/operators';
-// import { PostsService } from 'src/app/services/posts.service';
-// import { getPosts } from '../../states/postsStates/posts.actions';
-// import { Post } from '../../states/postsStates/posts.model';
-// import { PostsState } from '../../states/postsStates/posts.state';
-
-// @Component({
-//   selector: 'app-home',
-//   templateUrl: './home.page.html',
-//   styleUrls: ['./home.page.scss'],
-// })
-// export class HomePage implements OnInit, OnDestroy {
-//   private destroy: Subject<boolean> = new Subject<boolean>();
-//   // @Select(PostsState.getPostsList) posts$: Observable<any>;
-//   public posts = [];
-
-//   constructor(
-//     // private store: Store,
-//     public router: Router,
-//     public postsService: PostsService,
-//   ) { }
-
-//   public ngOnInit() {
-//     this.getPosts();
-//   }
-
-//   // public getPosts() {
-//   //   this.store.dispatch(new getPosts()); // @Action
-//   //   this.posts$.pipe(takeUntil(this.destroy)).subscribe((res) => {
-//   //     this.posts = res;
-//   //   })
-//   // }
-
-//   public ngOnDestroy(): void {
-//     this.destroy.next(true);
-//     this.destroy.unsubscribe();
-//   }
-
-//   public getPosts() {
-//     this.postsService.getPosts().subscribe((res) => {
-//       this.posts = res.posts;
-//     })
-//   }
-
-// }
