@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AnimationController, LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
@@ -13,6 +13,7 @@ import { PostsState } from '../../states/postsStates/posts.state';
   selector: 'app-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailPage {
   @Select(PostsState.getPostDetail)

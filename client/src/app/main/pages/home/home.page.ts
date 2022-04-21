@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { Actions, Store, ofActionSuccessful } from '@ngxs/store';
@@ -13,6 +13,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage implements AfterViewInit {
   @ViewChild('ioninfinite') infiniteScroll: IonInfiniteScroll;
@@ -30,6 +31,7 @@ export class HomePage implements AfterViewInit {
     private actions$: Actions,
     public router: Router,
     public postsService: PostsService,
+    public cd: ChangeDetectorRef
   ) {
     // empty
   }
@@ -54,6 +56,8 @@ export class HomePage implements AfterViewInit {
     this.store.dispatch(new GetPosts(request));
     this.actions$.pipe(ofActionSuccessful(GetPosts), untilDestroyed(this)).subscribe(() => {
       this.isLoading = false;
+      this.cd.markForCheck();
+
       this.infiniteScroll.disabled = false;
       this.disableInfiniteScroll();
     });

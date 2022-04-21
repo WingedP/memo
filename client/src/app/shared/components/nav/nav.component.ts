@@ -8,7 +8,7 @@ import { HttpService } from 'src/app/services/http.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
 })
-export class NavComponent implements OnInit {
+export class NavComponent {
   public previousUrl: string = undefined;
   public currentUrl: string = undefined;
   public currentLocation: any = 'home';
@@ -20,10 +20,6 @@ export class NavComponent implements OnInit {
     public httpService: HttpService,
   ) {
     this.getCurrentUrl();
-  }
-
-  public ngOnInit() {
-    // empty
   }
 
   public getCurrentUrl() {

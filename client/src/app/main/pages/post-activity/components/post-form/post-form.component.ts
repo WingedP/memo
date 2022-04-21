@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavController, ToastController } from '@ionic/angular';
 import { Actions, Store, ofActionSuccessful, ofActionErrored } from '@ngxs/store';
@@ -14,6 +14,7 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
   selector: 'app-post-form',
   templateUrl: './post-form.component.html',
   styleUrls: ['./post-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostFormComponent implements OnInit {
   @Input() post: any;
@@ -27,13 +28,14 @@ export class PostFormComponent implements OnInit {
   constructor(
     public store: Store,
     public cloudinary: Cloudinary,
-    private actions$: Actions,
+    public cd: ChangeDetectorRef,
+    public formBuilder: FormBuilder,
     public postsService: PostsService,
     public photoService: PhotoService,
     public errorHandlingService: ErrorHandlingService,
-    public formBuilder: FormBuilder,
     public toastController: ToastController,
     public navController: NavController,
+    private actions$: Actions,
   ) {
     // empty
   }
@@ -92,7 +94,7 @@ export class PostFormComponent implements OnInit {
     this.isSubmitting = true;
 
     // if new post has new photo, upload to cloud & get url
-    if (this.updatedPhoto !== this.placeholder) {
+    if (this.updatedPhoto && this.updatedPhoto !== this.placeholder) {
       const selectedPhoto = await this.uploadPicToCloudinary();
       this.postForm.patchValue({
         selectedFile: selectedPhoto.secure_url,
@@ -168,6 +170,7 @@ export class PostFormComponent implements OnInit {
   public async addPhotoToGallery() {
     const photo = await this.photoService.capturePhoto();
     this.updatedPhoto = photo.webviewPath;
+    this.cd.markForCheck();
   }
 
 }
