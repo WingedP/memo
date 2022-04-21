@@ -49,3 +49,10 @@
   --background: rgba(22, 12, 12, 0.26);
   @include flex-row;
 }
+
+.custom-loading {
+  --backdrop-opacity: 0.05;
+  .loading-wrapper {
+    background-color: transparent !important;
+  }
+}

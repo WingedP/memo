@@ -20,10 +20,10 @@
 
 <ion-content>
   <app-skeleton-list *ngIf="isLoading" [gridMode]="gridMode"></app-skeleton-list>
-  <app-list #listComponent [gridMode]="gridMode" [posts]="posts"></app-list>
+  <app-list #listComponent [gridMode]="gridMode"></app-list>
 
   <ion-infinite-scroll #ioninfinite threshold="0px"
-    (ionInfinite)="fetchPosts($event, {limit: limit, page: currentPage })">
+    (ionInfinite)="fetchPosts($event, {limit: limit, page: currentPage + 1 })" disabled="{{disableScroll}}">
     <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="load more...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

@@ -1,31 +1,35 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PhotoService {
-  private addPhotoActionSrc = new Subject<any>();
-  addPhotoAction$ = this.addPhotoActionSrc.asObservable();
+export class PhotoService extends HttpService {
 
-  constructor() {
-    // empty
+  constructor(
+    public httpClient: HttpClient,
+  ) {
+    super(httpClient);
   }
 
-  public async addNewToGallery() {
+  public async capturePhoto() {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
-      quality: 70
+      quality: 60
     });
 
-    const photo = {
+    return {
       filepath: '',
       webviewPath: `data:image/jpeg;base64,${capturedPhoto.base64String}`
     };
-    this.addPhotoActionSrc.next(photo);
-    return;
+  }
+
+  public uploadPhotoToStorage(body: FormData, url: string): Observable<any> {
+    return this.post(url, body);
   }
 
 }

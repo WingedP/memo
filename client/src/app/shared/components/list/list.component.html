@@ -1,11 +1,11 @@
 <ion-list *ngIf="!gridMode">
-  <ion-virtual-scroll [items]="posts" approxItemHeight="20px">
+  <ion-virtual-scroll [items]="posts$ | async" approxItemHeight="20px">
     <ion-item *virtualItem="let post" (click)="openDetail(post)">
       <ion-avatar slot="start">
-        <img [src]="post.selectedFile" />
+        <img [src]="post?.selectedFile" />
       </ion-avatar>
       <ion-label>
-        <h3>{{post.title}}</h3>
+        <h3>{{post?.title}}</h3>
         <p>{{post?.message}}</p>
       </ion-label>
       <ion-reorder slot="end">

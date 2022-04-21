@@ -1,18 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AnimationController, LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Post } from 'src/app/core/datatypes/interfaces/post.interface';
 import { PostsService } from 'src/app/services/posts.service';
 import { PopupConfirmYesNoComponent } from 'src/app/shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component';
-import { deletePost } from '../../states/postsStates/posts.actions';
+import { DeletePost, GetPostDetail } from '../../states/postsStates/posts.actions';
+import { PostsState } from '../../states/postsStates/posts.state';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
 })
-export class DetailPage implements OnInit {
-  public post: any;
+export class DetailPage {
+  @Select(PostsState.getPostDetail)
+  post$: Observable<Post>;
 
   constructor(
     public store: Store,
@@ -26,14 +30,6 @@ export class DetailPage implements OnInit {
     public loadingController: LoadingController,
     public postsService: PostsService,
   ) {
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.post = this.router.getCurrentNavigation().extras.state.post;
-      }
-    });
-  }
-
-  public ngOnInit() {
     // empty
   }
 
@@ -89,17 +85,19 @@ export class DetailPage implements OnInit {
   }
 
   public editMode() {
+    const post = this.store.selectSnapshot(PostsState.getPostDetail);
     const navigationExtras: any = {
       animated: false,
       state: {
-        post: this.post,
+        post: post,
       },
     };
     this.navController.navigateForward(['/main/edit'], navigationExtras);
   }
 
   public deletePost() {
-    this.store.dispatch(new deletePost(this.post._id))
+    const post = this.store.selectSnapshot(PostsState.getPostDetail);
+    this.store.dispatch(new DeletePost(post._id))
       .subscribe(
         (res) => {
           this.loadingController.dismiss();

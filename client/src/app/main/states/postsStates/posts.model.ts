@@ -1,14 +1,15 @@
 export interface Post {
   _id: string;
-  title: String,
-  message: String,
-  user: String,
-  creator: String,
-  selectedFile: String,
-  visited: Boolean,
+  title: string,
+  message: string,
+  user: string,
+  creator: string,
+  selectedFile: string,
+  visited: boolean,
 }
 export class PostsStateModel {
   posts: Post[];
+  postDetail: Post;
   currentPage: Number;
   totalPages: Number;
 }

@@ -1,18 +1,24 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-import { IonReorderGroup, IonVirtualScroll } from '@ionic/angular';
-import { Store } from '@ngxs/store';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonVirtualScroll, LoadingController } from '@ionic/angular';
+import { Select, Store } from '@ngxs/store';
 import { PostsService } from 'src/app/services/posts.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { PostsState } from 'src/app/main/states/postsStates/posts.state';
+import { Observable } from 'rxjs';
+import { Post } from 'src/app/core/datatypes/interfaces/post.interface';
+import { GetPostDetail } from 'src/app/main/states/postsStates/posts.actions';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnInit {
+  @Select(PostsState.getPostsList)
+  posts$: Observable<Post[]>;
   @ViewChild(IonVirtualScroll) virtualScroll: IonVirtualScroll;
-  @Input() posts: any;
   @Input() gridMode: any;
   public gridPosts: any;
 
@@ -20,28 +26,29 @@ export class ListComponent implements OnInit, OnChanges {
     public store: Store,
     public router: Router,
     public postsService: PostsService,
-    private sanitizer: DomSanitizer,
-  ) {
-    // empty
-  }
-
-  public ngOnChanges() {
-    if (this.posts.length > 0) {
-      this.gridPosts = this.postsService.group3Elements(this.posts, 3);
-    }
-  }
+    public loadingController: LoadingController,
+  ) { }
 
   public ngOnInit() {
-    // empty
+    this.posts$.pipe(untilDestroyed(this)).subscribe((res) => {
+      this.gridPosts = this.postsService.group3Elements(res, 3);
+    });
   }
 
-  public openDetail(post) {
-    let navigationExtras: NavigationExtras = {
-      state: {
-        post: post
-      }
-    };
-    this.router.navigate(['/main/detail'], navigationExtras);
+  public async openDetail(post) {
+    this.presentLoading();
+    await this.store.dispatch(new GetPostDetail(post._id)).toPromise();
+    this.loadingController.dismiss();
+
+    this.router.navigate([`/main/detail/${post._id}`]);
+  }
+
+  public async presentLoading() {
+    const loading = await this.loadingController.create({
+      duration: 50000,
+      cssClass: 'custom-loading',
+    });
+    await loading.present();
   }
 
 }

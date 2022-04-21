@@ -19,6 +19,10 @@ export class PostsService extends HttpService {
     return this.get(`${environment.baseUrl}/posts`, { params: data });
   }
 
+  public getPost(postID): Observable<any> {
+    return this.get(`${environment.baseUrl}/posts/${postID}`);
+  }
+
   public createPost(data) {
     return this.post(`${environment.baseUrl}/posts`, data);
   }

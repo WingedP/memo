@@ -9,15 +9,19 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    loadChildren: () => import('./pages/createPost/createPost.module').then(m => m.CreatePostPageModule)
+    loadChildren: () => import('./pages/post-activity/post-activity.module').then(m => m.PostActivityPageModule)
   },
   {
     path: 'edit',
-    loadChildren: () => import('./pages/createPost/createPost.module').then(m => m.CreatePostPageModule)
+    loadChildren: () => import('./pages/post-activity/post-activity.module').then(m => m.PostActivityPageModule)
   },
   {
-    path: 'detail',
+    path: 'detail/:id',
     loadChildren: () => import('./pages/detail/detail.module').then(m => m.DetailPageModule)
+  },
+  {
+    path: 'post-activity',
+    loadChildren: () => import('./pages/post-activity/post-activity.module').then(m => m.PostActivityPageModule)
   },
 ];
 

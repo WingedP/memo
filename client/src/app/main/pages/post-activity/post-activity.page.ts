@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ViewDidEnter } from '@ionic/angular';
 
 @Component({
-  selector: 'app-createPost',
-  templateUrl: './createPost.page.html',
-  styleUrls: ['./createPost.page.scss'],
+  selector: 'app-post-activity',
+  templateUrl: './post-activity.page.html',
+  styleUrls: ['./post-activity.page.scss'],
 })
-export class CreatePostPage implements ViewDidEnter {
+export class PostActivityPage {
   public post: any;
 
   constructor(
@@ -19,10 +18,6 @@ export class CreatePostPage implements ViewDidEnter {
         this.post = this.router.getCurrentNavigation().extras.state.post;
       }
     });
-  }
-
-  public ionViewDidEnter() {
-    // empty
   }
 
 }

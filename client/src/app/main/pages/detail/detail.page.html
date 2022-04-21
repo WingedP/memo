@@ -4,6 +4,38 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-content *ngIf="post$ | async as post">
+  <ion-card style="margin: 35px 20px 10px 20px;">
+    <div class="imgContainer">
+      <img [src]="post.selectedFile" />
+    </div>
+
+    <ion-card-header>
+      <ion-card-subtitle>User: {{post.user}}</ion-card-subtitle>
+      <ion-card-title>Location: {{post.title}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{post.message}}
+    </ion-card-content>
+
+    <ion-toolbar>
+      <ion-buttons slot="primary">
+        <ion-button (click)="presentActionSheet()">
+          <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
+          </ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-card>
+</ion-content>
+
+
+<!-- <ion-header style="visibility: hidden;">
+  <ion-toolbar>
+    <ion-title>detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <ion-card style="margin: 35px 20px 10px 20px;">
     <div class="imgContainer">
@@ -27,4 +59,4 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-card>
-</ion-content>
+</ion-content> -->
