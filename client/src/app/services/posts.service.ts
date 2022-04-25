@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from './http.service';
+import { BaseService } from './base.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostsService extends HttpService {
+export class PostsService extends BaseService {
 
   constructor(
     public httpClient: HttpClient
@@ -33,10 +33,6 @@ export class PostsService extends HttpService {
 
   public deletePost(postID) {
     return this.delete(`${environment.baseUrl}/posts/${postID}`);
-  }
-
-  public reorderPost(data) {
-    return this.post(`${environment.baseUrl}/posts/reorder`, data);
   }
 
   public group3Elements(array, n) {

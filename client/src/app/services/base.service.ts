@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HttpService {
+export class BaseService {
   public previousUrl: string = undefined;
   public currentUrl: string = undefined;
 
@@ -22,22 +21,22 @@ export class HttpService {
     return this.httpClient.get(url, requestOption);
   }
 
-  post<t>(url, data): Observable<any> {
+  post<t>(url: string, data): Observable<any> {
     let requestOption = this.createAuthorizationHeader();
     return this.httpClient.post(url, data, requestOption);
   }
 
-  put<t>(url, data): Observable<any> {
+  put<t>(url: string, data): Observable<any> {
     let requestOption = this.createAuthorizationHeader();
     return this.httpClient.put(url, data, requestOption);
   }
 
-  patch<t>(url, data): Observable<any> {
+  patch<t>(url: string, data): Observable<any> {
     let requestOption = this.createAuthorizationHeader();
     return this.httpClient.patch(url, data, requestOption);
   }
 
-  delete<t>(url): Observable<any> {
+  delete<t>(url: string): Observable<any> {
     let requestOption = this.createAuthorizationHeader();
     return this.httpClient.delete(url, requestOption);
   }
@@ -63,8 +62,4 @@ export class HttpService {
     return { headers: headers };
   }
 
-  public list(params: any) {
-    let url = `${environment.baseUrl}/${params}`;
-    return this.get(url);
-  }
 }

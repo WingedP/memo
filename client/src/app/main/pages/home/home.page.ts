@@ -52,29 +52,22 @@ export class HomePage implements AfterViewInit {
     }
   }
 
-  public load1stPage(request) {
-    this.store.dispatch(new GetPosts(request));
-    this.actions$.pipe(ofActionSuccessful(GetPosts), untilDestroyed(this)).subscribe(() => {
-      this.isLoading = false;
-      this.cd.markForCheck();
-
-      this.infiniteScroll.disabled = false;
-      this.disableInfiniteScroll();
-    });
+  public async load1stPage(request) {
+    await this.store.dispatch(new GetPosts(request)).toPromise();
+    this.isLoading = false;
+    this.cd.markForCheck();
+    this.infiniteScroll.disabled = false;
+    this.disableInfiniteScroll();
   }
 
-  public loadMore(event, request) {
-    setTimeout(() => {
-      this.store.dispatch(new GetPosts(request));
-    }, 400);
+  public async loadMore(event, request) {
+    const result = await this.store.dispatch(new GetPosts(request)).toPromise();
+    this.isLoading = false;
+    this.currentPage = result.PostsState.currentPage;
 
-    this.actions$.pipe(ofActionSuccessful(GetPosts), untilDestroyed(this)).subscribe((res) => {
-      this.isLoading = false;
-      this.currentPage = res.request.page;
-      event?.target?.complete();
-      this.listComponent?.virtualScroll?.checkEnd();
-      this.disableInfiniteScroll();
-    });
+    event?.target?.complete();
+    this.listComponent?.virtualScroll?.checkEnd();
+    this.disableInfiniteScroll();
   }
 
   public disableInfiniteScroll() {

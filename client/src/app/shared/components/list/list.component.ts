@@ -19,8 +19,8 @@ export class ListComponent implements OnInit {
   @Select(PostsState.getPostsList)
   posts$: Observable<Post[]>;
   @ViewChild(IonVirtualScroll) virtualScroll: IonVirtualScroll;
-  @Input() gridMode: any;
-  public gridPosts: any;
+  @Input() gridMode: boolean;
+  public gridPosts;
 
   constructor(
     public store: Store,

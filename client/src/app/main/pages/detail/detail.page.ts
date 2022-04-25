@@ -87,7 +87,7 @@ export class DetailPage {
 
   public editMode() {
     const post = this.store.selectSnapshot(PostsState.getPostDetail);
-    const navigationExtras: any = {
+    const navigationExtras = {
       animated: false,
       state: {
         post: post,

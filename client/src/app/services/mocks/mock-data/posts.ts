@@ -1,4 +1,4 @@
-export default [
+export const mockPosts = [
   {
     createdAt: "2022-04-21T08:44:55.400Z",
     message: "wefwef",

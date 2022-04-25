@@ -8,6 +8,7 @@ import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { PhotoService } from 'src/app/services/photo.service';
 import { PostsService } from 'src/app/services/posts.service';
 import { Cloudinary } from '@cloudinary/angular-5.x';
+import { Post } from 'src/app/core/datatypes/interfaces/post.interface';
 
 @UntilDestroy()
 @Component({
@@ -17,7 +18,7 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostFormComponent implements OnInit {
-  @Input() post: any;
+  @Input() post: Post;
   public postForm: FormGroup;
   public updatedPhoto = undefined;
   public isSubmitted = false;

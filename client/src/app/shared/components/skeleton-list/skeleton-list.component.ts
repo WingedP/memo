@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton-list',
@@ -6,13 +6,11 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   styleUrls: ['./skeleton-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkeletonListComponent implements OnInit {
-  @Input() gridMode: any;
+export class SkeletonListComponent {
+  @Input() gridMode: boolean;
 
   constructor() {
     // empty
   }
-
-  ngOnInit() { }
 
 }
