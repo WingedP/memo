@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
 import { patch, updateItem, removeItem } from '@ngxs/store/operators';
 import { PostsStateModel } from "./posts.model";
-import { PostsService } from "src/app/services/posts.service";
+import { PostsService } from "@services/posts.service";
 import { GetPosts, CreatePost, UpdatePost, DeletePost, GetPostDetail } from "./posts.actions";
 import { Post } from "src/app/core/datatypes/interfaces/post.interface";
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { BaseService } from 'src/app/services/base.service';
+import { BaseService } from '@services/base.service';
 
 @Component({
   selector: 'app-nav',

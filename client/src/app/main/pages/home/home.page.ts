@@ -1,12 +1,12 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
-import { Actions, Store, ofActionSuccessful } from '@ngxs/store';
-import { PostsService } from 'src/app/services/posts.service';
-import { ListComponent } from 'src/app/shared/components/list/list.component';
+import { Store } from '@ngxs/store';
+import { PostsService } from "@services/posts.service";
+import { ListComponent } from '@shared/components/list/list.component';
 import { GetPosts } from '../../states/postsStates/posts.actions';
 import { PostsState } from '../../states/postsStates/posts.state';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -28,7 +28,6 @@ export class HomePage implements AfterViewInit {
 
   constructor(
     private store: Store,
-    private actions$: Actions,
     public router: Router,
     public postsService: PostsService,
     public cd: ChangeDetectorRef

@@ -6,7 +6,9 @@
     "types": [
       "jest",
       "node"
-    ]
+    ],
+    "emitDecoratorMetadata": true,
+    "allowJs": true
   },
   "files": [
     "src/setup.jest.ts",
@@ -15,5 +17,8 @@
   "include": [
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "**/*.spec.pact.ts"
   ]
 }

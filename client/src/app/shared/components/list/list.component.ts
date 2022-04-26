@@ -2,11 +2,12 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonVirtualScroll, LoadingController } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
-import { PostsService } from 'src/app/services/posts.service';
-import { PostsState } from 'src/app/main/states/postsStates/posts.state';
+import { PostsService } from '@services/posts.service';
+import { PostsState } from '@main/states/postsStates/posts.state';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/core/datatypes/interfaces/post.interface';
-import { GetPostDetail } from 'src/app/main/states/postsStates/posts.actions';
+import { GetPostDetail } from '@main/states/postsStates/posts.actions';
+// import { GetPostDetail } from 'src/app/main/states/postsStates/posts.actions';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
