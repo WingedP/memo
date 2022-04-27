@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="1" errors="0" time="6.08">
-  <testsuite name="HomePage" errors="0" failures="1" skipped="0" timestamp="2022-04-26T10:04:08" time="3.925" tests="4">
-    <testcase classname="HomePage should exist" name="HomePage should exist" time="0.119">
-    </testcase>
-    <testcase classname="HomePage should create" name="HomePage should create" time="0.033">
-    </testcase>
-    <testcase classname="HomePage should load first page when app starts" name="HomePage should load first page when app starts" time="0.032">
-      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
-
-Expected: Any&lt;GetPosts&gt;
-
-Number of calls: 0
-    at /Users/ntnhan01/Works/memo/client/src/app/main/pages/home/home.page.spec.ts:54:28
+<testsuites name="jest tests" tests="1" failures="1" errors="0" time="5.717">
+  <testsuite name="DetailPage" errors="0" failures="1" skipped="0" timestamp="2022-04-27T10:09:13" time="3.708" tests="1">
+    <testcase classname="DetailPage should open action Controller when click" name="DetailPage should open action Controller when click" time="0.028">
+      <failure>Error: Unexpected value &apos;NavController&apos; imported by the module &apos;DynamicTestModule&apos;. Please add an @NgModule annotation.
+    at verifySemanticsOfNgModuleDef (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/core.mjs:23854:19)
+    at /Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/core.mjs:23865:9
+    at Array.forEach (&lt;anonymous&gt;)
+    at verifySemanticsOfNgModuleDef (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/core.mjs:23863:60)
+    at Function.get (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/core.mjs:23825:21)
+    at R3TestBedCompiler.applyProviderOverridesToModule (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/testing.mjs:1067:29)
+    at R3TestBedCompiler.compileTestModule (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/testing.mjs:1315:14)
+    at R3TestBedCompiler.finalize (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/testing.mjs:921:14)
+    at TestBedRender3.get testModuleRef [as testModuleRef] (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/testing.mjs:1796:49)
+    at TestBedRender3.inject (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/testing.mjs:1719:29)
+    at Function.inject (/Users/ntnhan01/Works/memo/client/node_modules/@angular/core/fesm2015/testing.mjs:1610:37)
+    at /Users/ntnhan01/Works/memo/client/src/app/main/pages/detail/detail.page.spec.ts:40:21
+    at Generator.next (&lt;anonymous&gt;)
+    at fulfilled (/Users/ntnhan01/Works/memo/client/node_modules/tslib/tslib.js:114:62)
     at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:409:30)
     at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:3803:43)
     at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:408:56)
     at Zone.Object.&lt;anonymous&gt;.Zone.run (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:169:47)
-    at Object.wrappedFunc (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:4288:34)
-    at Promise.then.completed (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/utils.js:391:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/utils.js:316:10)
-    at _callCircusTest (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/run.js:218:40)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)
-    at _runTest (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/run.js:155:3)
-    at _runTestsForDescribeBlock (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/run.js:66:9)
-    at _runTestsForDescribeBlock (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/run.js:60:9)
-    at run (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/run.js:25:3)
-    at runAndTransformResultsToJestFormat (/Users/ntnhan01/Works/memo/client/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)</failure>
-    </testcase>
-    <testcase classname="HomePage should load more when scroll down and current page is not last page" name="HomePage should load more when scroll down and current page is not last page" time="0.03">
+    at /Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:1326:38
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invokeTask (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:443:35)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvokeTask (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:3834:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invokeTask (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:442:64)
+    at Zone.Object.&lt;anonymous&gt;.Zone.runTask (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:214:51)
+    at drainMicroTaskQueue (/Users/ntnhan01/Works/memo/client/node_modules/zone.js/bundles/zone-testing-bundle.umd.js:632:39)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
     </testcase>
   </testsuite>
 </testsuites>

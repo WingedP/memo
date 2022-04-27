@@ -11,6 +11,7 @@ import { GetPosts } from '@main/states/postsStates/posts.actions';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { createMockStateData } from '@app/unit-test-helper';
 import { IonicModule } from '@ionic/angular';
+import { Pagination } from '@app/core/datatypes/interfaces/pagination.interface';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -41,16 +42,43 @@ describe('HomePage', () => {
     fixture.detectChanges();
   });
 
-  it('should exist', () => {
-    expect(component).toBeDefined();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should load first page when app starts', () => {
-    jest.spyOn(store, 'dispatch').mockReturnValue(of());
+    const request: Pagination = {
+      limit: 9,
+      page: 1
+    };
+    jest.spyOn(component, 'load1stPage');
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(component, 'fetchPosts');
+
+    component.ngAfterViewInit();
+
+    expect(component.fetchPosts).toHaveBeenCalled();
+    expect(component.load1stPage).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new GetPosts(request));
+  });
+
+  it('should load more when scroll down', () => {
+    // given
+    const request: Pagination = {
+      limit: 9,
+      page: 2
+    };
+    const e = true;
+    jest.spyOn(component, 'loadMore');
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(component, 'fetchPosts');
+
+    // when
+    component.fetchPosts(e, request);
+
+    // then
+    expect(component.fetchPosts).toHaveBeenCalled();
+    expect(component.loadMore).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(expect.any(GetPosts));
   });
 

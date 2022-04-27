@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/core/datatypes/interfaces/post.interface';
 import { PostsService } from '@services/posts.service';
-import { PopupConfirmYesNoComponent } from 'src/app/shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component';
+import { PopupConfirmYesNoComponent } from '@shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component';
 import { DeletePost, GetPostDetail } from '../../states/postsStates/posts.actions';
 import { PostsState } from '../../states/postsStates/posts.state';
 
