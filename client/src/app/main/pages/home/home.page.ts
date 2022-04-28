@@ -75,6 +75,7 @@ export class HomePage implements AfterViewInit {
     if (currentPage === totalPages) {
       this.infiniteScroll.disabled = currentPage === totalPages;
       this.noMorePost = this.infiniteScroll?.disabled;
+      this.cd.markForCheck();
     }
   }
 

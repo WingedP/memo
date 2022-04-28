@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ActivatedRoute, Router } from '@angular/router';
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute, Router, } from '@angular/router';
+import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { PostsState } from "@app/main/states/postsStates/posts.state";
 import { SharedModule } from "@app/shared/shared.module";
 import { createMockStateData } from "@app/unit-test-helper";
@@ -8,6 +8,9 @@ import { IonicModule, NavController } from "@ionic/angular";
 import { NgxsModule, Store } from "@ngxs/store";
 import { MockProvider } from "ng-mocks";
 import { DetailPage } from "./detail.page";
+import { NavMock } from "@app/services/mocks/mock-data/navMock";
+import { mockPost } from "@app/services/mocks/mock-data/post";
+import { Post } from "@app/core/datatypes/interfaces/post.interface";
 
 describe('DetailPage', () => {
   let component: DetailPage;
@@ -27,11 +30,11 @@ describe('DetailPage', () => {
         NgxsModule.forRoot(stateList, { developmentMode: true }),
       ],
       declarations: [DetailPage],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {},
-      },
-      MockProvider(Router),
+      providers: [
+        { provide: ActivatedRoute, useValue: {} },
+        { provide: NavController, useClass: NavMock },
+        MockProvider(Router),
+        MockProvider(Store),
       ],
     }).compileComponents();
 
@@ -45,32 +48,25 @@ describe('DetailPage', () => {
     fixture.detectChanges();
   });
 
-  // presentActionSheet
-  it('should open action Controller when click', () => {
-    spyOn(component, 'presentActionSheet');
-    let button = fixture.debugElement.nativeElement.querySelector('button');
-    button.click();
-
-    fixture.whenStable().then(() => {
-      expect(component.presentActionSheet).toHaveBeenCalled();
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  // // confirmDeleteModal
-  // it('should open confirm delete modal when choose delete', () => {
+  it('should navigate to edit mode/page', () => { // test public edit mode
+    const navCtrl = fixture.debugElement.injector.get(NavController);
+    const mockPostData = mockPost as unknown as Post;
+    const navigationExtras = { state: { post: mockPostData } };
 
-  // });
+    fixture.detectChanges(); // update everything to reflect the true state
 
-  // // editMode
-  // it('should navigate to edit mode/page', () => {
-  //   jest.spyOn(router, 'navigate').mockResolvedValueOnce(undefined);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(mockPostData);
+    jest.spyOn(component, 'editMode');
+    jest.spyOn(navCtrl, 'navigateForward');
 
-  // });
+    component.editMode();
 
-  // // deletePost
-  // it('should delete post if user confirm delete', () => {
-
-  // });
-
+    expect(navCtrl.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navCtrl.navigateForward).toHaveBeenCalledWith(['/main/edit'], navigationExtras);
+  });
 
 });

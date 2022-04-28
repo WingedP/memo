@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Post } from 'src/app/core/datatypes/interfaces/post.interface';
 import { PostsService } from '@services/posts.service';
 import { PopupConfirmYesNoComponent } from '@shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component';
-import { DeletePost, GetPostDetail } from '../../states/postsStates/posts.actions';
+import { DeletePost } from '../../states/postsStates/posts.actions';
 import { PostsState } from '../../states/postsStates/posts.state';
 
 @Component({
@@ -88,7 +88,6 @@ export class DetailPage {
   public editMode() {
     const post = this.store.selectSnapshot(PostsState.getPostDetail);
     const navigationExtras = {
-      animated: false,
       state: {
         post: post,
       },

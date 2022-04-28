@@ -51,9 +51,9 @@ describe('HomePage', () => {
       limit: 9,
       page: 1
     };
+    jest.spyOn(component, 'fetchPosts');
     jest.spyOn(component, 'load1stPage');
     jest.spyOn(store, 'dispatch');
-    jest.spyOn(component, 'fetchPosts');
 
     component.ngAfterViewInit();
 
@@ -69,9 +69,9 @@ describe('HomePage', () => {
       page: 2
     };
     const e = true;
+    jest.spyOn(component, 'fetchPosts');
     jest.spyOn(component, 'loadMore');
     jest.spyOn(store, 'dispatch');
-    jest.spyOn(component, 'fetchPosts');
 
     // when
     component.fetchPosts(e, request);
