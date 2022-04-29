@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionSheetController, AnimationController, LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AnimationController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/core/datatypes/interfaces/post.interface';
@@ -27,7 +27,6 @@ export class DetailPage {
     public animationCtrl: AnimationController,
     public actionSheetController: ActionSheetController,
     public navController: NavController,
-    public toastController: ToastController,
     public loadingController: LoadingController,
     public postsService: PostsService,
   ) {
@@ -71,7 +70,6 @@ export class DetailPage {
   }
 
   public async confirmDeleteModal() {
-
     const modal = await this.modalController.create({
       component: PopupConfirmYesNoComponent,
       cssClass: 'popup__confirmYesNo',
@@ -87,37 +85,13 @@ export class DetailPage {
 
   public editMode() {
     const post = this.store.selectSnapshot(PostsState.getPostDetail);
-    const navigationExtras = {
-      state: {
-        post: post,
-      },
-    };
+    const navigationExtras = { state: { post: post } };
     this.navController.navigateForward(['/main/edit'], navigationExtras);
   }
 
   public deletePost() {
     const post = this.store.selectSnapshot(PostsState.getPostDetail);
-    this.store.dispatch(new DeletePost(post._id))
-      .subscribe(
-        (res) => {
-          this.loadingController.dismiss();
-          this.presentToast('deleted success.', 'success');
-          this.navController.navigateBack(['/main/home']);
-        },
-        (error) => {
-          this.loadingController.dismiss();
-          this.presentToast('failed to delete post.', 'danger');
-        }
-      );
-  }
-
-  public async presentToast(msg, toastColor) {
-    const toast = await this.toastController.create({
-      color: toastColor,
-      message: msg,
-      duration: 1200,
-    });
-    toast.present();
+    this.store.dispatch(new DeletePost(post._id)).toPromise();
   }
 
   public async presentLoading() {

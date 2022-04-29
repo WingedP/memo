@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="9" failures="0" errors="0" time="7.672">
-  <testsuite name="DetailPage" errors="0" failures="0" skipped="0" timestamp="2022-04-28T10:23:17" time="3.843" tests="2">
-    <testcase classname="DetailPage should create" name="DetailPage should create" time="0.126">
+<testsuites name="jest tests" tests="3" failures="0" errors="0" time="4.032">
+  <testsuite name="DetailPage" errors="0" failures="0" skipped="0" timestamp="2022-04-28T12:30:51" time="3.372" tests="3">
+    <testcase classname="DetailPage should create" name="DetailPage should create" time="0.114">
     </testcase>
-    <testcase classname="DetailPage should navigate to edit mode/page" name="DetailPage should navigate to edit mode/page" time="0.016">
+    <testcase classname="DetailPage should call deletePost with post&apos;s id" name="DetailPage should call deletePost with post&apos;s id" time="0.027">
     </testcase>
-  </testsuite>
-  <testsuite name="PostsService" errors="0" failures="0" skipped="0" timestamp="2022-04-28T10:23:21" time="0.538" tests="4">
-    <testcase classname="PostsService should get posts" name="PostsService should get posts" time="0.015">
-    </testcase>
-    <testcase classname="PostsService should create post" name="PostsService should create post" time="0.004">
-    </testcase>
-    <testcase classname="PostsService should update post" name="PostsService should update post" time="0.003">
-    </testcase>
-    <testcase classname="PostsService should delete post" name="PostsService should delete post" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="HomePage" errors="0" failures="0" skipped="0" timestamp="2022-04-28T10:23:22" time="1.13" tests="3">
-    <testcase classname="HomePage should create" name="HomePage should create" time="0.098">
-    </testcase>
-    <testcase classname="HomePage should load first page when app starts" name="HomePage should load first page when app starts" time="0.034">
-    </testcase>
-    <testcase classname="HomePage should load more when scroll down" name="HomePage should load more when scroll down" time="0.028">
+    <testcase classname="DetailPage should navigate to edit mode/page" name="DetailPage should navigate to edit mode/page" time="0.019">
     </testcase>
   </testsuite>
 </testsuites>

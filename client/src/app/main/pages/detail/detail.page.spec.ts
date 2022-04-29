@@ -4,13 +4,16 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testin
 import { PostsState } from "@app/main/states/postsStates/posts.state";
 import { SharedModule } from "@app/shared/shared.module";
 import { createMockStateData } from "@app/unit-test-helper";
-import { IonicModule, NavController } from "@ionic/angular";
+import { IonicModule, ModalController, NavController } from "@ionic/angular";
 import { NgxsModule, Store } from "@ngxs/store";
 import { MockProvider } from "ng-mocks";
 import { DetailPage } from "./detail.page";
 import { NavMock } from "@app/services/mocks/mock-data/navMock";
 import { mockPost } from "@app/services/mocks/mock-data/post";
 import { Post } from "@app/core/datatypes/interfaces/post.interface";
+import { DeletePost } from "@app/main/states/postsStates/posts.actions";
+import { of } from "rxjs";
+import { ModalControllerMock } from "@app/unit-test-helper/modal-controller.mock";
 
 describe('DetailPage', () => {
   let component: DetailPage;
@@ -31,6 +34,10 @@ describe('DetailPage', () => {
       ],
       declarations: [DetailPage],
       providers: [
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock
+        },
         { provide: ActivatedRoute, useValue: {} },
         { provide: NavController, useClass: NavMock },
         MockProvider(Router),
@@ -52,12 +59,27 @@ describe('DetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to edit mode/page', () => { // test public edit mode
+  it('confirm modal should open when click', () => {
+    const alertControllerStub = jest.spyOn('ModalController', ['create']);
+
+  })
+
+  it('should call deletePost with post\'s id', () => { // test deletePost()
+    const mockPostData = mockPost as unknown as Post;
+
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(of(mockPostData));
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(component, 'deletePost');
+
+    component.deletePost();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new DeletePost(mockPostData._id));
+  });
+
+  it('should navigate to edit mode/page', () => { // test editMode()
     const navCtrl = fixture.debugElement.injector.get(NavController);
     const mockPostData = mockPost as unknown as Post;
     const navigationExtras = { state: { post: mockPostData } };
-
-    fixture.detectChanges(); // update everything to reflect the true state
 
     jest.spyOn(store, 'selectSnapshot').mockReturnValue(mockPostData);
     jest.spyOn(component, 'editMode');

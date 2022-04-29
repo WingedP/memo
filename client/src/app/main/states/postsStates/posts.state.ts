@@ -5,6 +5,8 @@ import { PostsStateModel } from "./posts.model";
 import { PostsService } from "@services/posts.service";
 import { GetPosts, CreatePost, UpdatePost, DeletePost, GetPostDetail } from "./posts.actions";
 import { Post } from "src/app/core/datatypes/interfaces/post.interface";
+import { LoadingController, NavController, ToastController } from "@ionic/angular";
+import { ToastService } from "@app/services/toast.service";
 
 const POSTS_STATE_TOKEN = new StateToken<PostsStateModel>(
   'PostsState'
@@ -25,6 +27,10 @@ const POSTS_STATE_TOKEN = new StateToken<PostsStateModel>(
 export class PostsState {
   constructor(
     public postsService: PostsService,
+    public toastService: ToastService,
+    public loadingController: LoadingController,
+    public toastController: ToastController,
+    public navController: NavController,
   ) {
     // empty
   }
@@ -81,12 +87,20 @@ export class PostsState {
 
   @Action(DeletePost)
   async deletePost(context: StateContext<PostsStateModel>, { id }: DeletePost) {
-    await this.postsService.deletePost(id).toPromise();
-    context.setState(
-      patch({
-        posts: removeItem(post => post._id === id)
-      })
-    );
+    try {
+      const result = await this.postsService.deletePost('fake_id').toPromise();
+
+      if (result && result.message === 'Post deleted successfully.') {
+        this.loadingController.dismiss();
+        this.toastService.presentToast('deleted success.', 'success');
+        this.navController.navigateBack(['/main/home']);
+
+        context.setState(patch({ posts: removeItem(post => post._id === id) }));
+      }
+    } catch (err) {
+      this.loadingController.dismiss();
+      this.toastService.presentToast('failed to delete post.', 'danger');
+    }
   }
 
 }
