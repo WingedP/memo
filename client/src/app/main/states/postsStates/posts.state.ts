@@ -88,7 +88,7 @@ export class PostsState {
   @Action(DeletePost)
   async deletePost(context: StateContext<PostsStateModel>, { id }: DeletePost) {
     try {
-      const result = await this.postsService.deletePost('fake_id').toPromise();
+      const result = await this.postsService.deletePost(id).toPromise();
 
       if (result && result.message === 'Post deleted successfully.') {
         this.loadingController.dismiss();

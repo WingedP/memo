@@ -91,7 +91,7 @@ export class DetailPage {
 
   public deletePost() {
     const post = this.store.selectSnapshot(PostsState.getPostDetail);
-    this.store.dispatch(new DeletePost(post._id)).toPromise();
+    this.store.dispatch(new DeletePost(post._id));
   }
 
   public async presentLoading() {

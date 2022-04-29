@@ -4,13 +4,12 @@ import { HomePage } from './home.page';
 import { SharedModule } from '@shared/shared.module';
 import { MockProvider } from 'ng-mocks';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
 import { NgxsModule, Store } from '@ngxs/store';
 import { PostsState } from '@main/states/postsStates/posts.state';
 import { GetPosts } from '@main/states/postsStates/posts.actions';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { createMockStateData } from '@app/unit-test-helper';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { Pagination } from '@app/core/datatypes/interfaces/pagination.interface';
 
 describe('HomePage', () => {
@@ -29,7 +28,10 @@ describe('HomePage', () => {
         NgxsModule.forRoot(stateList, { developmentMode: true }),
       ],
       declarations: [HomePage],
-      providers: [MockProvider(Router)],
+      providers: [
+        MockProvider(NavController),
+        MockProvider(Router)
+      ],
     }).compileComponents();
 
     store = TestBed.inject(Store);

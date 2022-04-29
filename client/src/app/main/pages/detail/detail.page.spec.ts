@@ -4,7 +4,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testin
 import { PostsState } from "@app/main/states/postsStates/posts.state";
 import { SharedModule } from "@app/shared/shared.module";
 import { createMockStateData } from "@app/unit-test-helper";
-import { IonicModule, ModalController, NavController } from "@ionic/angular";
+import { IonicModule, IonModal, ModalController, NavController } from "@ionic/angular";
 import { NgxsModule, Store } from "@ngxs/store";
 import { MockProvider } from "ng-mocks";
 import { DetailPage } from "./detail.page";
@@ -14,6 +14,7 @@ import { Post } from "@app/core/datatypes/interfaces/post.interface";
 import { DeletePost } from "@app/main/states/postsStates/posts.actions";
 import { of } from "rxjs";
 import { ModalControllerMock } from "@app/unit-test-helper/modal-controller.mock";
+import { PopupConfirmYesNoComponent } from "@app/shared/components/popup-confirm-yes-no/popup-confirm-yes-no.component";
 
 describe('DetailPage', () => {
   let component: DetailPage;
@@ -34,14 +35,11 @@ describe('DetailPage', () => {
       ],
       declarations: [DetailPage],
       providers: [
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock
-        },
         { provide: ActivatedRoute, useValue: {} },
         { provide: NavController, useClass: NavMock },
         MockProvider(Router),
         MockProvider(Store),
+        MockProvider(ModalController),
       ],
     }).compileComponents();
 
@@ -56,13 +54,23 @@ describe('DetailPage', () => {
   });
 
   it('should create', () => {
+    expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
   });
 
-  it('confirm modal should open when click', () => {
-    const alertControllerStub = jest.spyOn('ModalController', ['create']);
+  it('confirm modal should open when click', async () => { // test confirmDeleteModal()
+    const mockModal = {
+      component: PopupConfirmYesNoComponent,
+      cssClass: 'popup__confirmYesNo',
+    };
+    jest.spyOn(TestBed.inject(ModalController), 'create');
+    jest.spyOn(component, 'confirmDeleteModal');
 
-  })
+    component.confirmDeleteModal();
+
+    expect(component.confirmDeleteModal).toHaveBeenCalledTimes(1);
+    expect(TestBed.inject(ModalController).create).toHaveBeenCalledWith(mockModal);
+  });
 
   it('should call deletePost with post\'s id', () => { // test deletePost()
     const mockPostData = mockPost as unknown as Post;
